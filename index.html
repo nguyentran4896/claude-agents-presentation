@@ -330,7 +330,7 @@
   <div class="hero-badge"><span class="pulse"></span> Team Deep Dive — March 2026</div>
   <h1 class="hero-title">Claude Code<br><span class="gradient">Multi-Agent<br>Orchestration</span></h1>
   <p class="hero-sub">You use Claude Code daily. But most of us run a single session and call it a day. Let's explore the agent architecture underneath — subagents, agent teams, and how they actually work at the system level.</p>
-  <div class="stat-row" style="margin-top:44px">
+  <div class="stat-row" style="margin-top:24px">
     <div class="stat"><div class="num">2</div><div class="label">Agent Systems</div></div>
     <div class="stat"><div class="num">7+</div><div class="label">Parallel Workers</div></div>
     <div class="stat"><div class="num" style="color:var(--accent3)">Feb '26</div><div class="label">Teams Shipped</div></div>
@@ -836,7 +836,7 @@ future reference.
   <p class="section-desc">This is the actual tool call structure. Claude calls this internally when spawning subagents. Understanding these parameters is the key to controlling agent behavior.</p>
   <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px"><a href="https://docs.anthropic.com/en/docs/claude-code/sub-agents#frontmatter-reference" style="color:var(--text3);text-decoration:underline;text-decoration-style:dotted">docs/sub-agents#frontmatter</a></div>
 
-  <div style="margin-top:40px">
+  <div style="margin-top:20px">
       <div class="code-block">
         <div class="code-header"><span class="c r"></span><span class="c y"></span><span class="c g"></span><span class="filename">Agent tool — full parameter surface</span></div>
         <div class="code-body" style="font-size:11.5px">
@@ -1016,7 +1016,7 @@ You are a senior security auditor...
   <p class="section-desc">The <code>mode</code> parameter lets you set different permission levels per subagent. An explorer shouldn't have the same privileges as an implementer.</p>
   <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px"><a href="https://docs.anthropic.com/en/docs/claude-code/settings#permissions" style="color:var(--text3);text-decoration:underline;text-decoration-style:dotted">docs/settings#permissions</a> · <a href="https://docs.anthropic.com/en/docs/claude-code/settings#sandbox" style="color:var(--text3);text-decoration:underline;text-decoration-style:dotted">docs/settings#sandbox</a></div>
 
-  <div style="font-family:var(--mono);font-size:11px;color:var(--text3);margin:32px 0 8px;text-align:center">Click any mode column header to see details</div>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--text3);margin:16px 0 6px;text-align:center">Click any mode column header to see details</div>
   <div style="overflow-x:auto">
     <table class="perm-matrix" id="permMatrix">
       <tr>
@@ -1510,7 +1510,7 @@ before starting implementation."</span>
   <p class="section-desc">They solve fundamentally different problems. Here's the complete developer-facing comparison.</p>
   <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px"><a href="https://docs.anthropic.com/en/docs/claude-code/sub-agents" style="color:var(--text3);text-decoration:underline;text-decoration-style:dotted">docs/sub-agents</a></div>
 
-  <div style="overflow-x:auto;margin-top:32px">
+  <div style="overflow-x:auto;margin-top:16px">
     <table class="cmp-table">
       <tr><th style="min-width:150px"></th><th style="color:var(--accent4);min-width:260px">🔧 Subagents</th><th style="color:var(--accent);min-width:260px">👥 Agent Teams</th></tr>
       <tr><td>Process model</td><td>Child context within your session process</td><td>Separate Claude Code processes (one per teammate)</td></tr>
@@ -1899,7 +1899,7 @@ before starting implementation."</span>
   <p class="section-desc">Not just for Agent Teams. Individual subagents can get their own git worktree via <code>isolation: "worktree"</code>. Most devs don't know this exists. You can also start your entire session in a worktree with <code>claude --worktree feature-name</code>.</p>
   <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px"><a href="https://docs.anthropic.com/en/docs/claude-code/tutorials#git-worktrees" style="color:var(--text3);text-decoration:underline;text-decoration-style:dotted">docs/tutorials#worktrees</a></div>
 
-  <div class="code-block" style="margin-top:40px">
+  <div class="code-block" style="margin-top:20px">
     <div class="code-header"><span class="c r"></span><span class="c y"></span><span class="c g"></span><span class="filename">Agent tool call with isolation</span></div>
     <div class="code-body">
 <span class="fn">Agent</span>({
@@ -3362,7 +3362,7 @@ Agent({ prompt: "ONLY check src/auth/ for SQL
   <div class="section-label">What to Do Tomorrow</div>
   <h2 class="section-title">Quick reference</h2>
 
-  <div style="margin-top:32px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+  <div style="margin-top:18px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px">
     <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Features you might not know about</h3>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;font-size:11.5px;color:var(--text2)">
       <div style="padding:8px;background:var(--surface2);border-radius:8px"><strong style="color:var(--text)">Channels</strong> — push events from Telegram/Discord into running sessions</div>
@@ -3390,7 +3390,7 @@ Agent({ prompt: "ONLY check src/auth/ for SQL
     </div>
   </div>
 
-  <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
+  <div style="text-align:center;margin-top:16px;padding-top:24px;border-top:1px solid var(--border)">
     <p style="color:var(--text3);font-family:var(--mono);font-size:12px">
       Claude Code Multi-Agent Deep Dive · March 2026<br>
       <span style="color:var(--text3)">Sources: code.claude.com/docs · platform.claude.com/docs · addyosmani.com · community gists</span>

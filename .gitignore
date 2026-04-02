@@ -1,0 +1,5 @@
+.DS_Store
+.claude
+.eh-claude-code
+.playwright-mcp
+node_modules/

@@ -155,6 +155,12 @@
             <a class="toc-item toc-leaf" data-target="setup-workflow" href="#" onclick="jumpTo(event,'setup-workflow')">
               <span class="toc-tree-line"></span>Team Lifecycle
             </a>
+            <a class="toc-item toc-leaf" data-target="teams-best-practices" href="#" onclick="jumpTo(event,'teams-best-practices')">
+              <span class="toc-tree-line"></span>Best Practices
+            </a>
+            <a class="toc-item toc-leaf" data-target="teams-case-study" href="#" onclick="jumpTo(event,'teams-case-study')">
+              <span class="toc-tree-line"></span>Case Study: C Compiler
+            </a>
           </div>
         </div>
         <a class="toc-item" data-target="comparison" href="#" onclick="jumpTo(event,'comparison')">
@@ -328,7 +334,7 @@
 <section class="slide" data-title="intro">
 <div class="slide-inner">
   <div class="hero-badge"><span class="pulse"></span> Team Deep Dive — March 2026</div>
-  <h1 class="hero-title">Claude Code<br><span class="gradient">Multi-Agent<br>Orchestration</span></h1>
+  <h1 class="hero-title">Claude Code Agents<br><span class="gradient">What's Actually<br>Happening</span></h1>
   <p class="hero-sub">You use Claude Code daily. But most of us run a single session and call it a day. Let's explore the agent architecture underneath — subagents, agent teams, and how they actually work at the system level.</p>
   <div class="stat-row" style="margin-top:24px">
     <div class="stat"><div class="num">2</div><div class="label">Agent Systems</div></div>
@@ -1501,6 +1507,138 @@ before starting implementation."</span>
 </section>
 
 <!-- ========================================== -->
+<!-- SLIDE: TEAM BEST PRACTICES & PRO TIPS -->
+<!-- ========================================== -->
+<section class="slide" data-title="teams-best-practices">
+<div class="slide-inner">
+  <div class="section-label">Agent Teams — Pro Tips</div>
+  <h2 class="section-title">Team best practices & advanced tips</h2>
+  <p class="section-desc">Practical lessons from teams running in production. These tips make the difference between a smooth team session and a token-burning mess.</p>
+
+  <div class="two-col mt-40">
+    <div>
+      <h3 style="font-size:15px;margin-bottom:14px;font-weight:700;color:var(--accent4)">🏗️ Spawn prompt engineering</h3>
+      <div style="font-size:12.5px;color:var(--text2);line-height:1.8">
+        <div style="margin-bottom:6px">• Include <strong>module boundaries</strong> — tell each teammate exactly which directories they own</div>
+        <div style="margin-bottom:6px">• Add <strong>verification commands</strong> — "Run <code>npm test src/auth/</code> before marking done"</div>
+        <div style="margin-bottom:6px">• Specify <strong>output format</strong> — "Report: files changed, tests passing, API endpoints added"</div>
+        <div style="margin-bottom:6px">• Use <strong>negative constraints</strong> — "Do NOT modify files outside src/routes/"</div>
+      </div>
+
+      <h3 style="font-size:15px;margin:20px 0 14px;font-weight:700;color:var(--accent3)">📡 Communication economy</h3>
+      <div style="font-size:12.5px;color:var(--text2);line-height:1.8">
+        <div style="margin-bottom:6px">• Prefer <code>write()</code> over <code>broadcast()</code> — broadcasts cost <strong>O(n)</strong> tokens</div>
+        <div style="margin-bottom:6px">• Front-load coordination: agree on contracts <strong>before</strong> coding, not during</div>
+        <div style="margin-bottom:6px">• Tell the lead: "Wait for your teammates to complete their tasks before proceeding"</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size:15px;margin-bottom:14px;font-weight:700;color:var(--accent)">🪝 Quality gate hooks</h3>
+      <div class="code-block" style="margin:0">
+        <div class="code-body" style="font-size:11px">
+<span class="cm">// .claude/settings.json hooks</span>
+{
+  <span class="str">"hooks"</span>: {
+    <span class="str">"TaskCompleted"</span>: [{
+      <span class="str">"command"</span>: <span class="str">"npm test"</span>,
+      <span class="cm">// exit 2 → prevents completion</span>
+    }],
+    <span class="str">"TeammateIdle"</span>: [{
+      <span class="str">"command"</span>: <span class="str">"echo 'Pick next task'"</span>,
+      <span class="cm">// exit 2 → sends feedback</span>
+    }]
+  }
+}
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:var(--text2);line-height:1.6;margin-top:10px">
+        <div><span style="color:var(--accent4)">TaskCompleted</span> — enforce tests/lint before closing</div>
+        <div><span style="color:var(--accent3)">TeammateIdle</span> — auto-assign follow-up work</div>
+        <div><span style="color:var(--accent)">TaskCreated</span> — validate task scope/format</div>
+      </div>
+
+      <h3 style="font-size:15px;margin:20px 0 14px;font-weight:700;color:var(--orange)">🔧 Auto-provided env vars</h3>
+      <div style="font-size:11.5px;color:var(--text2);line-height:1.8;font-family:var(--mono)">
+        <div>CLAUDE_CODE_TEAM_NAME</div>
+        <div>CLAUDE_CODE_AGENT_ID</div>
+        <div>CLAUDE_CODE_AGENT_NAME</div>
+        <div>CLAUDE_CODE_PARENT_SESSION_ID</div>
+        <div style="font-size:10px;color:var(--text3);font-family:var(--sans);margin-top:4px">Use in hooks for logging, metrics, or per-agent behavior.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box purple" style="margin-top:16px;border:2px solid rgba(124,58,237,.15)">
+    <span style="font-size:16px">🧠</span>
+    <div>
+      <strong>CLAUDE.md for teams:</strong> Document module boundaries in a table format. Define "verified" with specific commands. Keep under 200 lines. Your CLAUDE.md is the <strong>only shared context</strong> between all teammates — it's their team handbook.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE: REAL-WORLD CASE STUDY -->
+<!-- ========================================== -->
+<section class="slide" data-title="teams-case-study">
+<div class="slide-inner">
+  <div class="section-label">Agent Teams — Case Study</div>
+  <h2 class="section-title">Real-world: Anthropic's C compiler</h2>
+  <p class="section-desc">Anthropic used <strong>16 parallel Claude instances</strong> to build a 100,000-line Rust C compiler in 2 weeks. Here's what they learned.</p>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px"><a href="https://www.anthropic.com/engineering/building-c-compiler" style="color:var(--text3);text-decoration:underline;text-decoration-style:dotted">anthropic.com/engineering/building-c-compiler</a></div>
+
+  <div class="stat-row" style="margin:20px 0;justify-content:flex-start">
+    <div class="stat"><div class="num" style="font-size:24px;color:var(--accent4)">16</div><div class="label">Parallel agents</div></div>
+    <div class="stat"><div class="num" style="font-size:24px;color:var(--accent3)">100K</div><div class="label">Lines of Rust</div></div>
+    <div class="stat"><div class="num" style="font-size:24px;color:var(--accent)">2K</div><div class="label">Sessions total</div></div>
+    <div class="stat"><div class="num" style="font-size:24px;color:var(--orange)">~$20K</div><div class="label">Total cost</div></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="font-size:15px;margin-bottom:12px;font-weight:700">How it worked</h3>
+      <div style="font-size:12.5px;color:var(--text2);line-height:1.8">
+        <div style="margin-bottom:4px">• Agents claimed work via <strong>lock files</strong> in <code>current_tasks/</code></div>
+        <div style="margin-bottom:4px">• Each agent: pull upstream → merge → implement → push → remove lock</div>
+        <div style="margin-bottom:4px">• Self-organizing: no central coordinator needed</div>
+        <div style="margin-bottom:4px">• Failed tasks automatically released for other agents</div>
+      </div>
+
+      <h3 style="font-size:15px;margin:16px 0 12px;font-weight:700">What they learned</h3>
+      <div style="font-size:12.5px;color:var(--text2);line-height:1.8">
+        <div style="margin-bottom:4px">• <strong>Test quality is paramount</strong> — "the task verifier must be nearly perfect, otherwise Claude will solve the wrong problem"</div>
+        <div style="margin-bottom:4px">• When work wasn't parallelizable, all 16 agents converged on <strong>identical bugs</strong> — negating benefits</div>
+        <div style="margin-bottom:4px">• Success = designing the <strong>environment</strong> around agents, not just the prompts</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size:15px;margin-bottom:12px;font-weight:700;color:var(--accent4)">Key takeaways for your teams</h3>
+      <div class="card-grid" style="grid-template-columns:1fr;gap:10px">
+        <div class="card" style="padding:12px;border-top:3px solid var(--accent4)">
+          <h4 style="font-size:13px;margin-bottom:4px">🧪 Invest in test infrastructure</h4>
+          <p style="font-size:11.5px;color:var(--text2);line-height:1.5">Clear pass/fail verification lets agents self-correct. Without it, they solve the wrong problem confidently.</p>
+        </div>
+        <div class="card" style="padding:12px;border-top:3px solid var(--accent3)">
+          <h4 style="font-size:13px;margin-bottom:4px">🧩 Design for parallelism</h4>
+          <p style="font-size:11.5px;color:var(--text2);line-height:1.5">Break monolithic tasks into independent units. If agents can't work independently, you lose all scaling benefits.</p>
+        </div>
+        <div class="card" style="padding:12px;border-top:3px solid var(--accent)">
+          <h4 style="font-size:13px;margin-bottom:4px">🔒 Use file-level ownership</h4>
+          <p style="font-size:11.5px;color:var(--text2);line-height:1.5">Lock files or clear directory boundaries prevent conflicts. Two agents editing the same file = guaranteed merge pain.</p>
+        </div>
+        <div class="card" style="padding:12px;border-top:3px solid var(--orange)">
+          <h4 style="font-size:13px;margin-bottom:4px">🌊 March 2026 fixes</h4>
+          <p style="font-size:11.5px;color:var(--text2);line-height:1.5">Nested spawn prevention, memory leak fix (lead's history was pinned per teammate), new <code>agent_id</code>/<code>agent_type</code> hook fields.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ========================================== -->
 <!-- SLIDE 7: COMPARISON -->
 <!-- ========================================== -->
 <section class="slide" data-title="comparison">
@@ -2262,6 +2400,54 @@ Work in your isolated worktree.
         <span class="metric-badge">⭐⭐ Medium</span>
       </div>
     </div>
+
+    <div class="scenario s-team">
+      <div class="s-tag">Plan → Approve → Build</div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:8px">Plan approval workflow</h3>
+      <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:12px">Architect plans first, lead approves before implementation. Prevents costly mistakes on complex changes.</p>
+      <div class="code-block" style="margin:0">
+        <div class="code-body" style="font-size:11.5px">
+<span class="str">"Refactor auth module. Team setup:</span>
+<span class="str">- architect: analyze current code, write plan</span>
+<span class="str">  with file-by-file changes. NO code yet.</span>
+<span class="str">  End plan with 'READY FOR APPROVAL'</span>
+<span class="str">- implementer: blocked until plan approved</span>
+<span class="str">- tester: blocked until implementation done</span>
+<span class="str"></span>
+<span class="str">Only approve plans that include test coverage</span>
+<span class="str">and rollback strategy."</span>
+        </div>
+      </div>
+      <div class="pattern-metrics">
+        <span class="metric-badge">⏱ ~3hr → ~40min</span>
+        <span class="metric-badge">💰 ~$4.50</span>
+        <span class="metric-badge">⭐⭐⭐ Advanced</span>
+      </div>
+    </div>
+
+    <div class="scenario s-team">
+      <div class="s-tag">Self-organizing pool</div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:8px">Swarm: auto-claiming tasks</h3>
+      <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:12px">Workers continuously claim pending tasks from a pool. Natural load-balancing — fast agents do more work.</p>
+      <div class="code-block" style="margin:0">
+        <div class="code-body" style="font-size:11.5px">
+<span class="str">"Migrate 20 React class components to hooks.</span>
+<span class="str">Create a team of 4 workers. Each worker:</span>
+<span class="str">1. Check task list for pending migrations</span>
+<span class="str">2. Claim one, migrate it, run tests</span>
+<span class="str">3. Mark done, claim next pending task</span>
+<span class="str">4. Idle when no tasks remain</span>
+<span class="str"></span>
+<span class="str">Do NOT assign files upfront — let workers</span>
+<span class="str">self-select from the pool."</span>
+        </div>
+      </div>
+      <div class="pattern-metrics">
+        <span class="metric-badge">⏱ ~6hr → ~1hr</span>
+        <span class="metric-badge">💰 ~$6.00</span>
+        <span class="metric-badge">⭐⭐ Medium</span>
+      </div>
+    </div>
   </div>
 </div>
 </section>
@@ -2748,6 +2934,31 @@ allowedTools: ["Bash(npm test)", "Bash(git *)"]  # scoped = OK
         <div class="ge-fix">// Fix: after 2 failures, /clear and start fresh
 // Include: exact file paths, constraints, expected output format
 // "Explore first, plan, then implement" approach works better</div>
+      </div></div>
+    </div>
+    <div class="card expandable" style="border-top:3px solid var(--red)" onclick="toggleGotcha(this)">
+      <h3 style="font-size:15px;margin-bottom:8px">📂 Same-file edits across teammates <span class="severity-badge critical">Critical</span></h3>
+      <p>Two teammates editing the same file = guaranteed merge conflicts or silent overwrites. Each teammate works in its own git worktree.</p>
+      <div class="gotcha-expand"><div class="gotcha-expand-inner">
+        <div class="ge-symptom">Merge conflicts when teammates' branches merge back. Or worse — one teammate's changes silently overwrite another's.</div>
+        <div class="ge-cause">Git worktrees are independent branches. No real-time file locking between teammates.</div>
+        <div class="ge-fix">// Fix: explicit file ownership in spawn prompts
+"backend: ONLY modify files in src/routes/ and src/models/"
+"frontend: ONLY modify files in src/components/"
+// Document module boundaries in CLAUDE.md</div>
+      </div></div>
+    </div>
+    <div class="card expandable" style="border-top:3px solid var(--orange)" onclick="toggleGotcha(this)">
+      <h3 style="font-size:15px;margin-bottom:8px">🧟 Orphaned tmux sessions <span class="severity-badge warning">Warning</span></h3>
+      <p>If team cleanup fails or you disconnect, tmux sessions linger consuming resources. One team per session — clean up before starting a new one.</p>
+      <div class="gotcha-expand"><div class="gotcha-expand-inner">
+        <div class="ge-symptom">CPU/memory usage stays high after team work. <code>tmux ls</code> shows old team sessions.</div>
+        <div class="ge-cause">Teammate processes run independently. <code>requestShutdown()</code> waits for current tool call to finish — can be slow.</div>
+        <div class="ge-fix">// Check for orphans:
+tmux ls
+// Kill specific team:
+tmux kill-session -t team-name
+// Nuclear option: tmux kill-server</div>
       </div></div>
     </div>
   </div>
